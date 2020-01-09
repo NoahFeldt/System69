@@ -8,14 +8,6 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(("0.0.0.0", 420))
 sock.listen(1)
 
-<<<<<<< HEAD
-c = None
-a = None
-
-while c == None:
-    c, a = sock.accept()
-    print("listen")
-=======
 cons = []
 adds = []
 
@@ -29,12 +21,12 @@ def listener():
             c = None
 
 def check():
-    global cons
     for i in range(0, len(cons)):
         try:
-            cons[i].send("are you alive?".encode("utf-8"))
+            cons[i].send("Are you alive?".encode("utf-8"))
         except:
             cons.pop(i)
+            adds.pop(i)
 
 def send_all(command):
     for i in range(len(cons)):
@@ -48,7 +40,7 @@ def userInterface():
             print()
             print("ADDS           Shows a list of every connected ip address.")
             print("CLS            Clears command prompt.")
-            print("CONS           number of connections")
+            print("CONS           Maximum number of connections.")
             print("EXIT           Exits server.")
             print("HELP           Shows list of commands.")
             print("MSG            Sends a costom message to all connections.")
@@ -58,25 +50,25 @@ def userInterface():
             os.system("cls")
         elif command[0] == "exit":
             exit(0)
+        elif command[0] == "adds":
+            check()
+            if len(adds) > 0:
+                print(adds)
+            else:
+                print("There are no connections!", end="\n\n")
         elif command[0] == "msg":
+            check()
             try:
-                check()
                 send_all(pickle.dumps((command[0], command[1])))
             except:
                 print("MSG {message}", end="\n\n")
         elif command[0] == "udp":
+            check()
             try:
-                check()
                 send_all(pickle.dumps((command[0], command[1], int(command[2]), command[3])))
             except:
                 print("UDP {ip} {port} {message}", end="\n\n")
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    threading.Thread(target=listener).start()
     threading.Thread(target=userInterface).start()
->>>>>>> yes
-=======
     threading.Thread(target=listener, daemon=True).start()
-    threading.Thread(target=userInterface).start()
->>>>>>> yes
