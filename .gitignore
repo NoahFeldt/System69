@@ -1,2 +1,9 @@
 # visual studio code
 .vscode
+
+# pyinstaller
+*.spec
+*.bat
+dist
+build
+__pycache__

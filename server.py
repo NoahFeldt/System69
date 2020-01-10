@@ -8,38 +8,36 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.bind(("0.0.0.0", 420))
 sock.listen(1)
 
-cons = []
-adds = []
+con = []
+add = []
 
 # listens for new connections and dedicates a thread to them
 def listener():
     while True:
         c, a = sock.accept()
         if c != None:
-            cons.append(c)
-            adds.append(a)
+            con.append(c)
+            add.append(a)
             c = None
 
 # updates connections and addresses
 def check():
-    print(adds)
-    for i in range(0, len(cons)):
+    for i in range(0, len(con)):
         try:
-            cons[i].send("Are you alive?".encode("utf-8"))
+            con[i].send("Are you alive?".encode("utf-8"))
         except:
             try:
-                cons.pop(i)
-                adds.pop(i)
+                con.pop(i)
+                add.pop(i)
             except:
                 pass
-    print(adds)
 
 # sends command to each connection
 def send_all(command):
     check()
     command = pickle.dumps(command)
-    for i in range(len(cons)):
-        cons[i].send(command)
+    for i in range(len(con)):
+        con[i].send(command)
 
 # user interface of the server
 def userInterface():
@@ -48,9 +46,9 @@ def userInterface():
         command = input().lower().split(" ")
         if command[0] == "help":
             print()
-            print("ADDS           Shows a list of every connected ip address.")
+            print("ADD            Shows a list of every connected ip address.")
             print("CLS            Clears command prompt.")
-            print("CONS           Maximum number of connections.")
+            print("CON            Maximum number of connections.")
             print("EXIT           Exits server.")
             print("HELP           Shows list of commands.")
             print("MSG            Sends a costom message to all connections.")
@@ -61,17 +59,17 @@ def userInterface():
             os.system("cls")
         elif command[0] == "exit":
             exit(0)
-        elif command[0] == "adds":
+        elif command[0] == "add":
             check()
-            if len(adds) > 0:
-                print(adds)
+            if len(add) > 0:
+                print(add)
             else:
                 print("There are no connections!", end="\n\n")
         elif command[0] == "msg":
-            #try:
+            try:
                 send_all((command[0], command[1]))
-            #except:
-            #    print("MSG {message}", end="\n\n")
+            except:
+                print("MSG {message}", end="\n\n")
         elif command[0] == "udp":
             try:
                 send_all((command[0], command[1], int(command[2]), command[3]))
