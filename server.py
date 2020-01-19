@@ -48,16 +48,12 @@ def userInterface():
             print()
             print("ADD            Shows a list of every connected ip address.")
             print("CLS            Clears command prompt.")
-<<<<<<< HEAD
             print("CON            Maximum number of connections.")
             print("QUIT           Quits server.")
             print("EXT            Changes the address that zombies connect to.")
-=======
-            print("EXIT           Exits server.")
->>>>>>> 5f6353b66bd060f58f1a341eba41b5333074cb49
             print("HELP           Shows list of commands.")
             print("MSG            Sends a costom message to all connections.")
-            print("STOP           Stops every active attack.")
+            print("Stop           Stops every active attack.")
             print("UDP            Starts a DDoS attack using UDP")
             print()
         elif command[0] == "cls":
